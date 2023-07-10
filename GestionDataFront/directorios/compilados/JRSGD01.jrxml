@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRSGD01" pageWidth="1300" pageHeight="500" orientation="Landscape" columnWidth="1300" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="59015001-9660-4b3c-9016-ff9c72916a63">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<parameter name="CD_RANGO_EDAD" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  
+    CD_GESTION_REMESA,
+    NM_APELLIDO1,
+    nvl(NM_APELLIDO2,'-')NM_APELLIDO2,
+    NM_NOMBRE1, 
+    nvl(NM_NOMBRE2,'-')NM_NOMBRE2,
+    TP_DOCUMENTO,
+    NU_DOCUMENTO,
+    TX_PAIS,
+    TX_ESTADO_CIVIL,
+    TX_SEXO, 
+    FE_NACIMIENTO,
+    nvl(TX_PROFESION,'-')TX_PROFESION,
+    nvl(TX_OCUPACION,'-')TX_OCUPACION,
+    nvl(MT_INGRESO,'-')MT_INGRESO,
+    NU_TELEFONO,
+    nvl(CALLE,'-')CALLE, 
+    nvl(TX_URBANIZACION,'-')TX_URBANIZACION,
+    TX_CORREO,
+    MT_SUMA_ASEGURADA,
+    NU_EDAD,
+    nombre_crudo,
+    correo_crudo,
+     'Entre '||(select min_edad from corereporteedad where cd_rango_edad= $P{CD_RANGO_EDAD} ) ||' Y '|| 
+    (select max_edad from corereporteedad where cd_rango_edad= $P{CD_RANGO_EDAD} ) Rango
+FROM COREGESTIONREMESA  
+    where cd_remesa= $P{CD_REMESA} 
+    and in_validaprimernombre=1 and  
+    in_validaprimerapellido=1 and  
+    in_validanudocumento=1 and  
+    in_valida_correo=1 and  
+    in_valida_telefono_movil=1 and  
+    in_valida_telefono_local=1 and  
+    in_valida_fecha_nacimiento=1 and  
+    in_duplicado is null 
+    and trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD-MM-YYYY'))/12) between  
+    (select min_edad from corereporteedad where cd_rango_edad= $P{CD_RANGO_EDAD} ) and  
+    (select max_edad from corereporteedad where cd_rango_edad= $P{CD_RANGO_EDAD} )
+    and st_gestion_remesa=3]]>
+	</queryString>
+	<field name="CD_GESTION_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_GESTION_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_GESTION_REMESA"/>
+	</field>
+	<field name="NM_APELLIDO1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_APELLIDO1"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_APELLIDO1"/>
+	</field>
+	<field name="NM_APELLIDO2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_APELLIDO2"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_APELLIDO2"/>
+	</field>
+	<field name="NM_NOMBRE1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_NOMBRE1"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_NOMBRE1"/>
+	</field>
+	<field name="NM_NOMBRE2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_NOMBRE2"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_NOMBRE2"/>
+	</field>
+	<field name="TP_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TP_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TP_DOCUMENTO"/>
+	</field>
+	<field name="NU_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_DOCUMENTO"/>
+	</field>
+	<field name="TX_PAIS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PAIS"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PAIS"/>
+	</field>
+	<field name="TX_ESTADO_CIVIL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ESTADO_CIVIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ESTADO_CIVIL"/>
+	</field>
+	<field name="TX_SEXO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_SEXO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_SEXO"/>
+	</field>
+	<field name="FE_NACIMIENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FE_NACIMIENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="FE_NACIMIENTO"/>
+	</field>
+	<field name="TX_PROFESION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PROFESION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PROFESION"/>
+	</field>
+	<field name="TX_OCUPACION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_OCUPACION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_OCUPACION"/>
+	</field>
+	<field name="MT_INGRESO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="MT_INGRESO"/>
+		<property name="com.jaspersoft.studio.field.label" value="MT_INGRESO"/>
+	</field>
+	<field name="NU_TELEFONO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO"/>
+	</field>
+	<field name="CALLE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CALLE"/>
+		<property name="com.jaspersoft.studio.field.label" value="CALLE"/>
+	</field>
+	<field name="TX_URBANIZACION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_URBANIZACION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_URBANIZACION"/>
+	</field>
+	<field name="TX_CORREO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CORREO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CORREO"/>
+	</field>
+	<field name="MT_SUMA_ASEGURADA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="MT_SUMA_ASEGURADA"/>
+		<property name="com.jaspersoft.studio.field.label" value="MT_SUMA_ASEGURADA"/>
+	</field>
+	<field name="NU_EDAD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_EDAD"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_EDAD"/>
+	</field>
+	<field name="NOMBRE_CRUDO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMBRE_CRUDO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRE_CRUDO"/>
+	</field>
+	<field name="CORREO_CRUDO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CORREO_CRUDO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CORREO_CRUDO"/>
+	</field>
+	<field name="RANGO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="RANGO"/>
+		<property name="com.jaspersoft.studio.field.label" value="RANGO"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="120" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="20" width="200" height="20" uuid="edbc4582-70f9-41fe-98ae-53566a2d810f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RANGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="40" width="100" height="20" uuid="a70675ae-7c71-4ac2-a0fd-7b89018657d6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{CD_REMESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="9b412397-19be-40ff-be71-37cda7642a83">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código de Remesa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="200" height="20" uuid="92a9a98e-2fce-4ab5-a754-77737b0edd96">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" uuid="be4cafbe-1851-432d-8c35-4361724a6186">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="100" width="100" height="20" uuid="1d627aa3-0cc5-467e-9ce6-0f340ffa9c9b">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Primer Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="100" width="100" height="20" uuid="4717ac77-5991-4cce-9fe5-c996c26d6e18">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Segundo Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="100" width="100" height="20" uuid="16e08423-334a-4b29-b16e-ea1c40959bc3">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Tipo Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="100" width="100" height="20" uuid="be56273f-8ca9-4848-8027-dc8990399b0c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="100" width="100" height="20" uuid="df6ccf5e-e2db-49c6-9855-9a6bcb95b2e0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Pais]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="100" width="100" height="20" uuid="6b9bdd57-e3c8-45ce-acb4-c801372cce78">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="100" width="100" height="20" uuid="462095d2-6120-46b2-8b1a-dd15a030c42f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Estado Civil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="800" y="100" width="200" height="20" uuid="3053847c-a354-40b4-8966-e090a8ed61d7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[Direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="100" width="100" height="20" uuid="24285f73-25fd-442c-8d11-e3d85d86a9f1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Fecha Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1000" y="100" width="100" height="20" uuid="114fb0a9-54cf-4d85-99ab-de209f376d36">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Telefono Movil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1100" y="100" width="200" height="20" uuid="d183f88c-940b-453b-baa2-c730a70939c2">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Correo]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="c031f3a9-eae6-4a2a-967e-7dfba53f673b">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{NM_NOMBRE1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="97a81992-ad9f-4e60-955b-712ad983e193">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{NM_NOMBRE2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="a8662a2d-aca0-43d3-b56b-3a22399406d7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TP_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="14a6e46f-4719-47d0-a977-b25cac70084e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{NU_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="cadf26a1-c2b1-4950-a299-a112642fbf75">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TX_PAIS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="600" y="0" width="100" height="20" uuid="d87d248d-9ee3-435e-913b-df4a04519e2c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TX_SEXO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="700" y="0" width="100" height="20" uuid="40e7718c-5984-484b-a131-1128cc6b3543">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TX_ESTADO_CIVIL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="800" y="0" width="200" height="20" uuid="e0b2b264-0877-48fa-aabe-21f451105821">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{CALLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="100" height="20" uuid="d27c29e4-825e-455e-9c3f-d08aabc4838e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{FE_NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1000" y="0" width="100" height="20" uuid="36dc61ac-f299-4f34-a179-fd5863fad398">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1100" y="0" width="200" height="20" uuid="c8429b7f-287c-4f80-b4b2-425fb7cee3ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{TX_CORREO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

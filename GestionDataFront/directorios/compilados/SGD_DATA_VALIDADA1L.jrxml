@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SGD_DATA_VALIDADA1L" pageWidth="2150" pageHeight="595" orientation="Landscape" columnWidth="2150" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="bb6a0b39-6562-47c5-b751-771f491c0e16">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle_desa"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  * from (
+select
+   case when replace(tx_correo,'--') is null then 0 else 1 end validacion_correo,
+   case when nu_telefono_hab is null then 0 else 1 end validacion_telefono_movil,
+   case when length(nu_telefono_hab)=10 then 0 else 1 end validacion_caracteres_movil,
+   case when (substr((nu_telefono_hab),2,3)) in ('414','424','412','416','426')  then 1 else 0 end validacion_area_movil,
+   case when nu_telefono is null then 0 else 1 end validacion_telefono_local,
+   case when nvl(nu_edad,0) != trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12) then 0 else 1 end validacion_edad,
+   case when nvl(nu_edad,0)-trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12)>2 then 1 else 0 end validacion_edad_mas_2 ,
+   case when (trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12))<=65 then 1 else 0 end validacion_menor_65,
+   trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12) edad_calculada,
+   reme.*,
+   (select tx_campania from interface.corecampania camp where camp.cd_campania=geme.CD_CAMPANIA)tx_campania,
+   (select de_dato from sir.tablainformacion where cd_tabla='410094' and va_dato1=geme.cd_Aliado)tx_aliado,
+   (select de_producto from sir.producto camp where camp.cd_producto=geme.cd_producto)tx_producto
+    
+    
+from interface.coregestionremesa reme, interface.coreremesa geme
+where nu_edad is not null
+and cd_gestion_remesa= $P{CD_REMESA} 
+and reme.cd_gestion_remesa=geme.cd_remesa
+)]]>
+	</queryString>
+	<field name="VALIDACION_CORREO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_CORREO"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_CORREO"/>
+	</field>
+	<field name="VALIDACION_TELEFONO_MOVIL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_TELEFONO_MOVIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_TELEFONO_MOVIL"/>
+	</field>
+	<field name="VALIDACION_CARACTERES_MOVIL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_CARACTERES_MOVIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_CARACTERES_MOVIL"/>
+	</field>
+	<field name="VALIDACION_AREA_MOVIL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_AREA_MOVIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_AREA_MOVIL"/>
+	</field>
+	<field name="VALIDACION_TELEFONO_LOCAL" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_TELEFONO_LOCAL"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_TELEFONO_LOCAL"/>
+	</field>
+	<field name="VALIDACION_EDAD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_EDAD"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_EDAD"/>
+	</field>
+	<field name="VALIDACION_EDAD_MAS_2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_EDAD_MAS_2"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_EDAD_MAS_2"/>
+	</field>
+	<field name="VALIDACION_MENOR_65" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="VALIDACION_MENOR_65"/>
+		<property name="com.jaspersoft.studio.field.label" value="VALIDACION_MENOR_65"/>
+	</field>
+	<field name="EDAD_CALCULADA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="EDAD_CALCULADA"/>
+		<property name="com.jaspersoft.studio.field.label" value="EDAD_CALCULADA"/>
+	</field>
+	<field name="CD_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_REMESA"/>
+	</field>
+	<field name="NM_APELLIDO1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_APELLIDO1"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_APELLIDO1"/>
+	</field>
+	<field name="NM_APELLIDO2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_APELLIDO2"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_APELLIDO2"/>
+	</field>
+	<field name="NM_NOMBRE1" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_NOMBRE1"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_NOMBRE1"/>
+	</field>
+	<field name="NM_NOMBRE2" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_NOMBRE2"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_NOMBRE2"/>
+	</field>
+	<field name="TP_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TP_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TP_DOCUMENTO"/>
+	</field>
+	<field name="NU_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_DOCUMENTO"/>
+	</field>
+	<field name="TX_PAIS" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PAIS"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PAIS"/>
+	</field>
+	<field name="TX_ESTADO_CIVIL" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ESTADO_CIVIL"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ESTADO_CIVIL"/>
+	</field>
+	<field name="TX_SEXO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_SEXO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_SEXO"/>
+	</field>
+	<field name="TX_PROFESION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PROFESION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PROFESION"/>
+	</field>
+	<field name="TX_OCUPACION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_OCUPACION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_OCUPACION"/>
+	</field>
+	<field name="TX_ACTECO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ACTECO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ACTECO"/>
+	</field>
+	<field name="MT_INGRESO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="MT_INGRESO"/>
+		<property name="com.jaspersoft.studio.field.label" value="MT_INGRESO"/>
+	</field>
+	<field name="NU_TELEFONO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO"/>
+	</field>
+	<field name="CALLE" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CALLE"/>
+		<property name="com.jaspersoft.studio.field.label" value="CALLE"/>
+	</field>
+	<field name="TX_URBANIZACION" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_URBANIZACION"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_URBANIZACION"/>
+	</field>
+	<field name="TX_CASA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CASA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CASA"/>
+	</field>
+	<field name="TX_APARTAMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_APARTAMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_APARTAMENTO"/>
+	</field>
+	<field name="TX_PARROQUIA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PARROQUIA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PARROQUIA"/>
+	</field>
+	<field name="TX_MUNICIPIO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_MUNICIPIO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_MUNICIPIO"/>
+	</field>
+	<field name="TX_CIUDAD" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CIUDAD"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CIUDAD"/>
+	</field>
+	<field name="TX_ESTADO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ESTADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ESTADO"/>
+	</field>
+	<field name="TX_CORREO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CORREO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CORREO"/>
+	</field>
+	<field name="MT_SUMA_ASEGURADA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="MT_SUMA_ASEGURADA"/>
+		<property name="com.jaspersoft.studio.field.label" value="MT_SUMA_ASEGURADA"/>
+	</field>
+	<field name="CD_BANCO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_BANCO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_BANCO"/>
+	</field>
+	<field name="NU_CUENTA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_CUENTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_CUENTA"/>
+	</field>
+	<field name="TP_CUENTA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TP_CUENTA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TP_CUENTA"/>
+	</field>
+	<field name="CD_ASESOR" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_ASESOR"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_ASESOR"/>
+	</field>
+	<field name="CD_ALIADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_ALIADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_ALIADO"/>
+	</field>
+	<field name="CD_CONDICION" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_CONDICION"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_CONDICION"/>
+	</field>
+	<field name="NU_PLAZO_ESPERA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NU_PLAZO_ESPERA"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_PLAZO_ESPERA"/>
+	</field>
+	<field name="FE_NACIMIENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FE_NACIMIENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="FE_NACIMIENTO"/>
+	</field>
+	<field name="NU_TELEFONO_HAB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO_HAB"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO_HAB"/>
+	</field>
+	<field name="IN_DUPLICADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="IN_DUPLICADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="IN_DUPLICADO"/>
+	</field>
+	<field name="IN_IVSS_VALIDACION" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="IN_IVSS_VALIDACION"/>
+		<property name="com.jaspersoft.studio.field.label" value="IN_IVSS_VALIDACION"/>
+	</field>
+	<field name="TX_IVSS_INFORME" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_IVSS_INFORME"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_IVSS_INFORME"/>
+	</field>
+	<field name="CD_GESTION_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_GESTION_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_GESTION_REMESA"/>
+	</field>
+	<field name="ST_GESTION_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="ST_GESTION_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="ST_GESTION_REMESA"/>
+	</field>
+	<field name="NU_EDAD" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NU_EDAD"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_EDAD"/>
+	</field>
+	<field name="TX_CAMPANIA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CAMPANIA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CAMPANIA"/>
+	</field>
+	<field name="TX_ALIADO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ALIADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ALIADO"/>
+	</field>
+	<field name="TX_PRODUCTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PRODUCTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PRODUCTO"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="100" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="20" uuid="d406f0be-9525-4e40-8ce8-e1436764082f">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="80" width="100" height="20" uuid="59444a05-5a67-42e1-bea9-df40b172aa34">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="80" width="100" height="20" uuid="2758deb1-0fda-4360-a523-32f213294ef7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="80" width="100" height="20" uuid="d9f84d19-1927-4992-81c7-6a87c258ca00">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido 2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="80" width="100" height="20" uuid="1fab72f6-577a-4376-9dc6-09aa0942f075">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="80" width="100" height="20" uuid="4515f89c-524a-4e1d-87f1-95132eb7cfe1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="80" width="100" height="20" uuid="7dcbd50a-e0fc-4684-8bbc-28d967ae57c2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pais]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="80" width="200" height="20" uuid="3d7b8d78-da7c-4755-b49d-c42cf3fcccb3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="900" y="80" width="100" height="20" uuid="ad61c023-7a0d-4d20-b5d4-02dd288f454d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1000" y="80" width="100" height="20" uuid="8b3f4bea-c42d-40e5-a9ff-f95a97b6375e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono Movil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1100" y="80" width="100" height="20" uuid="b60b2a11-b8f1-4b5b-afae-b565dc4e3e2b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefono Local]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1200" y="80" width="100" height="20" uuid="2ffcace5-9265-40a3-a49c-7767690b4ab0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1300" y="80" width="100" height="20" uuid="7b5ec71b-a5f3-4a8e-9860-161a9b1e5a09">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1400" y="80" width="100" height="20" uuid="ac9e2657-8a18-4975-af3f-ef236ad98685">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad Calculada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1500" y="80" width="100" height="20" uuid="0f3ec810-a056-47df-a4ca-a8cec230fe44">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1600" y="80" width="100" height="20" uuid="93aef023-2690-41e0-8253-d97bc3b343db">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Tel. Movil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1700" y="80" width="100" height="20" uuid="74a80609-6b71-4e0f-b082-9c6c0053315e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Tel. Local]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1800" y="80" width="100" height="20" uuid="b9e03bd3-0e45-40fe-8d91-1e4be43bb6eb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Área Tel.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1900" y="80" width="100" height="20" uuid="4aeae9ec-e764-4b9a-99eb-4742587eca41">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2000" y="80" width="150" height="20" uuid="9446e7f4-13a9-4ff9-b029-228b35ad4df0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valida Mayor 65 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" uuid="006957f1-2f93-4f30-a281-ca2959c25162">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Campaña]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="0" width="200" height="20" uuid="76668288-ceb5-453d-b5d0-a0f1b17c53b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_CAMPANIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="20" uuid="fa273199-a877-49fb-af6f-da31d6893bcf">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="20" width="200" height="20" uuid="73e5271a-ed72-4bd7-8e28-af3b6d54ee9c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_PRODUCTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="200" height="20" uuid="8f0bf3fa-06ad-4021-a6a3-8c1eb3f7970a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aliado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="40" width="200" height="20" uuid="e73f2db1-2df0-4191-8399-299a247e7876">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_ALIADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="0" width="400" height="20" uuid="87e80b3f-aa7e-4e3b-b20b-8dbdcc18fd53">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Gestión de Data Validada]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="20" uuid="e01fece6-410a-41da-b2d3-004186446c67">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_NOMBRE1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="0" width="100" height="20" uuid="974b2c9a-24ec-4256-869f-7ab9cdf415e7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_NOMBRE2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="200" y="0" width="100" height="20" uuid="c7cafddd-4606-4110-8ed4-8cc383d3b937">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_APELLIDO1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="300" y="0" width="100" height="20" uuid="58ae1791-b606-4401-abe7-c541b2c4d239">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_APELLIDO2}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="400" y="0" width="100" height="20" uuid="2a2ad6a3-9459-4fbd-b1e3-d0fbe6155947">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TP_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="500" y="0" width="100" height="20" uuid="2efc5bdf-1231-409c-929d-fc8c0683c678">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="600" y="0" width="100" height="20" uuid="2851ba9b-b8c6-4132-bb7c-13f6eea88d89">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_PAIS}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="700" y="0" width="200" height="20" uuid="d894c697-a394-49c2-92a0-94f2e2e22f1b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_CORREO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="900" y="0" width="100" height="20" uuid="cb9e97a9-5f6f-41b2-b320-041e832cb08e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_SEXO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1000" y="0" width="100" height="20" uuid="83ae6f21-4707-4878-83f6-f09cf8cff3c2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO_HAB}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1100" y="0" width="100" height="20" uuid="410ab652-5fc7-4b2e-af40-7a602db61e17">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1200" y="0" width="100" height="20" uuid="1025ac2a-756d-4d15-8fa1-c426db86ce52">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FE_NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###)" isBlankWhenNull="true">
+				<reportElement x="1300" y="0" width="100" height="20" uuid="3956b236-4412-4d7a-995a-584de106758c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_EDAD}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###;(#,##0.###)" isBlankWhenNull="true">
+				<reportElement x="1400" y="0" width="100" height="20" uuid="ad9df636-2c43-47e3-aaae-580d0562e3fc">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EDAD_CALCULADA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1500" y="0" width="100" height="20" uuid="1b5009df-f7cc-4c36-8033-0219dbea59f3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_CORREO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1600" y="0" width="100" height="20" uuid="e0841f7d-12d5-49b4-bc23-be1d5aa7232c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_TELEFONO_MOVIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1700" y="0" width="100" height="20" uuid="0892e21c-e8db-4c10-b170-ca4383f3ef1a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_TELEFONO_LOCAL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1800" y="0" width="100" height="20" uuid="a8d072ac-c367-4ef9-9c4e-556518dec6f0">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_AREA_MOVIL}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1900" y="0" width="100" height="20" uuid="5ce7723b-9db9-4912-a7b8-7d3ef03323ef">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_EDAD}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="2000" y="0" width="150" height="20" uuid="d395eb27-646e-4a08-8538-aaefd866a450">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{VALIDACION_MENOR_65}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

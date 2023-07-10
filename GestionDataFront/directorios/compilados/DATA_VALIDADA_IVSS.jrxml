@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DATA_VALIDADA_IVSS" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="26c33405-d9ea-479b-8dff-dd7bf9bc54fc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+cd_remesa,
+nm_nombre1 || ' '|| nm_apellido1 nombres, nu_documento,
+tx_correo, fe_nacimiento, nu_telefono
+from gestiondata.coregestionremesa
+where cd_remesa= $P{CD_REMESA} 
+ and in_ivss_validacion=1]]>
+	</queryString>
+	<field name="CD_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_REMESA"/>
+	</field>
+	<field name="NOMBRES" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMBRES"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRES"/>
+	</field>
+	<field name="NU_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_DOCUMENTO"/>
+	</field>
+	<field name="TX_CORREO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CORREO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CORREO"/>
+	</field>
+	<field name="FE_NACIMIENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FE_NACIMIENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="FE_NACIMIENTO"/>
+	</field>
+	<field name="NU_TELEFONO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="350" height="20" uuid="e1e3fbd1-5c79-424e-9c30-a5e475bed59f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Validada en Línea en Seguro Social (I.V.S.S)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="20" uuid="8c20d241-ba63-4ea5-8da1-e3931136a4e6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código de la Remesa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="200" height="20" uuid="03cf3872-6610-45d9-b3b1-bba9e6627af1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="20" width="150" height="20" uuid="6d3dcb20-142b-46f2-a202-888aee4ab267"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CD_REMESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="3680ec57-bf1d-4dc8-ac07-208bca13dc56">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="60" width="100" height="20" uuid="dbc98e27-ac86-4232-be0c-54beb06dd345">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NU_DOCUMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="60" width="180" height="20" uuid="d61de449-dec6-4d4f-ae64-de166babad5c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TX_CORREO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="60" width="100" height="20" uuid="4eb3a6ca-9b03-40e7-925b-326695bf92f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FE_NACIMIENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="60" width="115" height="20" uuid="24de6aa7-f1e2-44f1-b4c9-07ff3e50a7ff">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NU_TELEFONO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="8c1d92c4-4506-4be8-b555-da4db9c35cb4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOMBRES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="08efa798-24ce-4c1a-9619-d3bc8c9e3fce">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="180" height="20" uuid="de8e82d1-a3d1-44ce-9055-995dbec513f7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TX_CORREO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="100" height="20" uuid="b0a05c0f-ac3c-4133-a125-0c576dec5a6b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FE_NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="115" height="20" uuid="f34ed031-8563-4943-80df-e94bbb55265c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

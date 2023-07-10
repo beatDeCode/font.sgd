@@ -1,0 +1,5 @@
+Se Realizó un cambio de correo de yormanduq@mgail.com a YORMANDUQ@gmail.com
+Existencia de Nombre Compuesto para Yorman Del Pepino Medina
+Existencia de Nombre Compuesto para Juan De los Lagos Carrizal
+Existencia de Nombre Compuesto para Ramon De los Robles Rodriguez
+SLF-ERROR(03): Error en proceso validación de negocio could not execute statement; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: could not execute statement

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SGD_DATA_OPTIMA_EDAD" pageWidth="700" pageHeight="595" orientation="Landscape" columnWidth="700" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="bb6a0b39-6562-47c5-b751-771f491c0e16">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle_desa"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+    sum(optima_plus)optima_plus,
+    sum(optima_50)optima_50,
+    sum(optima_60)optima_60,
+    sum(optima_70)optima_70,
+    sum(optima_80)optima_80,
+    sum(optima_90)optima_90,
+    sum(optima_100)optima_100,
+    tx_campania,
+     tx_aliado,
+     tx_producto
+from (
+   
+select 
+    case when edad_calculada>=18 and edad_calculada<=45 then 1 else 0 end optima_plus,
+    case when edad_calculada>45 and edad_calculada<=56 then 1 else 0 end optima_50,
+    case when edad_calculada>56 and edad_calculada<=65 then 1 else 0 end optima_60,
+    case when edad_calculada>65 and edad_calculada<=75 then 1 else 0 end optima_70,
+    case when edad_calculada>75 and edad_calculada<=85 then 1 else 0 end optima_80,
+    case when edad_calculada>85 and edad_calculada<=95 then 1 else 0 end optima_90,
+    case when edad_calculada>95 and edad_calculada<=105 then 1 else 0 end optima_100,
+    tx_campania,
+     tx_aliado,
+     tx_producto
+from (
+    select
+    case when replace(tx_correo,'--') is null then 0 else 1 end validacion_correo,
+    case when nu_telefono_hab is null then 0 else 1 end validacion_telefono_movil,
+    case when length(nu_telefono_hab)=11 then 1 else 0 end validacion_caracteres_movil,
+    case when (substr((nu_telefono_hab),2,3)) in ('414','424','412','416','426')  then 1 else 0 end validacion_area_movil,
+    case when nu_telefono is null then 0 else 1 end validacion_telefono_local,
+    abs((nvl(nu_edad,0)-trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12))) validacion_edad,
+    case when (trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12))<=65 then 1 else 0 end validacion_menor_65,
+    trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12) edad_calculada,
+    /*reme.*,*/
+    (select tx_campania from interface.corecampania camp where camp.cd_campania=geme.CD_CAMPANIA)tx_campania,
+    (select de_dato from sir.tablainformacion where cd_tabla='410094' and va_dato1=geme.cd_Aliado)tx_aliado,
+    (select de_producto from sir.producto camp where camp.cd_producto=geme.cd_producto)tx_producto
+
+
+    from interface.coregestionremesa reme, interface.coreremesa geme
+    where nu_edad is not null
+    and cd_gestion_remesa=   $P{CD_REMESA} 
+    and reme.cd_gestion_remesa=geme.cd_remesa
+)where validacion_area_movil=1
+and validacion_edad in (0,1)
+and validacion_telefono_movil=1
+and validacion_correo=1
+
+)
+group by tx_campania,
+     tx_aliado,
+     tx_producto]]>
+	</queryString>
+	<field name="OPTIMA_PLUS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_PLUS"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_PLUS"/>
+	</field>
+	<field name="OPTIMA_50" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_50"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_50"/>
+	</field>
+	<field name="OPTIMA_60" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_60"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_60"/>
+	</field>
+	<field name="OPTIMA_70" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_70"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_70"/>
+	</field>
+	<field name="OPTIMA_80" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_80"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_80"/>
+	</field>
+	<field name="OPTIMA_90" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_90"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_90"/>
+	</field>
+	<field name="OPTIMA_100" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="OPTIMA_100"/>
+		<property name="com.jaspersoft.studio.field.label" value="OPTIMA_100"/>
+	</field>
+	<field name="TX_CAMPANIA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CAMPANIA"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CAMPANIA"/>
+	</field>
+	<field name="TX_ALIADO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_ALIADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_ALIADO"/>
+	</field>
+	<field name="TX_PRODUCTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_PRODUCTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_PRODUCTO"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="370" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="200" height="20" uuid="006957f1-2f93-4f30-a281-ca2959c25162">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Campaña]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="0" width="300" height="20" uuid="76668288-ceb5-453d-b5d0-a0f1b17c53b3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_CAMPANIA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="200" height="20" uuid="fa273199-a877-49fb-af6f-da31d6893bcf">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="20" width="300" height="20" uuid="73e5271a-ed72-4bd7-8e28-af3b6d54ee9c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_PRODUCTO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="200" height="20" uuid="8f0bf3fa-06ad-4021-a6a3-8c1eb3f7970a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aliado]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="200" y="40" width="300" height="20" uuid="e73f2db1-2df0-4191-8399-299a247e7876">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_ALIADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="80" width="300" height="20" uuid="87e80b3f-aa7e-4e3b-b20b-8dbdcc18fd53">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Gestión de Data Óptima Plus Por Edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="160" width="200" height="30" uuid="b97aa388-ce36-4339-baab-9aeaab5bea49"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 18 - 45 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="190" width="200" height="30" uuid="f84d988e-4a8a-4e2a-8f21-9c4269577a78"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 46 - 56 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="220" width="200" height="30" uuid="8058c401-709e-4b29-b9cb-20f788c94983">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 56-65 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="250" width="200" height="30" uuid="8212c55d-f1d8-44e6-9837-2683e66c1024">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 66-75 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="280" width="200" height="30" uuid="cb157d42-1152-4ccd-8324-0e8f04cc11b2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 76-86 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="310" width="200" height="30" uuid="98eb8316-50ee-4f51-ad3d-a702313dcaa3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Entre 86 - 96 Años]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="340" width="200" height="30" uuid="d8467092-fff9-4634-93a2-1cff6abf72a0">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mayor a 96]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="400" y="160" width="100" height="30" uuid="a6d18015-8fb9-4cc8-8076-dfab5f9e3ac1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_PLUS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="190" width="100" height="30" uuid="7600cd8b-a7bd-44e1-8d35-58358eae2452">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_50}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="220" width="100" height="30" uuid="1770db87-fcb7-4e1e-8af3-ad79f1d36472"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_60}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="250" width="100" height="30" uuid="05adb436-661d-421d-8a78-6478d80f6687"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_70}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="280" width="100" height="30" uuid="f4c22498-45c4-4d07-ae3d-217560964bcb"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_80}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="310" width="100" height="30" uuid="4bac3373-a0b9-4881-90e0-04e51b27838a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_90}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="340" width="100" height="30" uuid="7f1e79f1-fafa-462d-8522-da8a541e9997"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OPTIMA_100}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="130" width="200" height="30" backcolor="#ABABAB" uuid="c5005b74-4cc3-42f6-88cc-ffff11c04471"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Edad Comprendidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="400" y="130" width="100" height="30" backcolor="#ABABAB" uuid="75995e4f-ecf1-4ba3-882b-508352167a0e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de Registros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="100" width="300" height="30" uuid="9474f94e-f7c4-4045-aaf4-aae985657bb4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="60" width="300" height="20" uuid="7ff93feb-2696-42c4-81f6-617a3ad62f9e">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="0" width="200" height="20" uuid="8fb77099-cbef-4a44-be3a-7831922a57c0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

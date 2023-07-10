@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="GESTION_REMESA_DNO2L" pageWidth="1550" pageHeight="595" orientation="Landscape" columnWidth="1550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f447368b-d92e-4edc-b269-130310b0f369">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle desa interface"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_DATA_NO_OPTIMA" class="java.lang.String"/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select   
+     nombre_crudo,tp_documento,nu_documento,fe_nacimiento,tx_correo,nu_telefono,nu_telefono_hab,
+     (select tx_titulo from corereportedatanooptima where cd_data_no_optima= $P{CD_DATA_NO_OPTIMA} ) titulo,
+     nu_poliza_asegurado,nu_poliza_contratante
+     
+from(  
+    select   
+    case when tx_correo is null then 0 else 1 end correo,  
+    case when nu_telefono is null   
+    then 0   
+    else  
+    case when length(nu_telefono)=10   
+    then   
+        case when substr(nu_telefono,1,3) in ('424','412','414','416','426') then 1 else 0 end  
+    else 0   
+    end  
+    end telefono,  
+    case when abs(nvl(to_number(replace(nu_edad,'.0','')),0)-trunc(months_between(trunc(sysdate),to_date(fe_nacimiento,'DD/MM/YYYY'))/12))<=2 then 1 else 0 end  edad_calculada ,
+    nombre_crudo,tp_documento,nu_documento,fe_nacimiento,tx_correo,nu_telefono,nu_telefono_hab,
+              (select max(pcer.nu_poliza)
+from SIR.POLIZACERTENDOSOBIENGRUPOASEG grupo , sir.polizacertificado pcer
+where 
+pcer.CD_AREA=grupo.cd_area
+and pcer.cd_entidad=grupo.cd_entidad
+and pcer.NU_POLIZA = grupo.NU_POLIZA
+and pcer.NU_CERTIFICADO = grupo.NU_CERTIFICADO
+and pcer.st_certificado=1
+and
+cd_persona=(select cd_persona from persona pers where pers.nu_documento=core.nu_documento and rownum<=1) 
+and (select st_certificado from sir.polizacertificado where nu_poliza=grupo.nu_poliza and rownum<=1 )=1 ) nu_poliza_asegurado,
+(select max(nu_poliza) from sir.polizacertificado 
+  where cd_persona_asegurada=(select cd_persona from sir.persona pers where pers.nu_documento=core.nu_documento and rownum<=1) and  st_certificado=1
+) nu_poliza_contratante
+    from coregestionremesa core  
+    where core.cd_remesa=   $P{CD_REMESA} 
+      and in_duplicado is not null 
+)]]>
+	</queryString>
+	<field name="NOMBRE_CRUDO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NOMBRE_CRUDO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NOMBRE_CRUDO"/>
+	</field>
+	<field name="TP_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TP_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TP_DOCUMENTO"/>
+	</field>
+	<field name="NU_DOCUMENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_DOCUMENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_DOCUMENTO"/>
+	</field>
+	<field name="FE_NACIMIENTO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FE_NACIMIENTO"/>
+		<property name="com.jaspersoft.studio.field.label" value="FE_NACIMIENTO"/>
+	</field>
+	<field name="TX_CORREO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TX_CORREO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TX_CORREO"/>
+	</field>
+	<field name="NU_TELEFONO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO"/>
+	</field>
+	<field name="NU_TELEFONO_HAB" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NU_TELEFONO_HAB"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_TELEFONO_HAB"/>
+	</field>
+	<field name="TITULO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TITULO"/>
+		<property name="com.jaspersoft.studio.field.label" value="TITULO"/>
+	</field>
+	<field name="NU_POLIZA_ASEGURADO" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NU_POLIZA_ASEGURADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_POLIZA_ASEGURADO"/>
+	</field>
+	<field name="NU_POLIZA_CONTRATANTE" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NU_POLIZA_CONTRATANTE"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_POLIZA_CONTRATANTE"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="350" height="20" uuid="d919aea4-e9df-4ae2-8b17-5e1fef2ab40c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gestion de Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="350" height="20" uuid="a50cba33-9ef9-42f7-ab57-98e827087a4b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre Crudo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="60" width="100" height="20" uuid="3508acac-3b27-4f44-969b-d9311c034bbb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="60" width="100" height="20" uuid="0663431b-dad9-459f-9ea9-0c55909b6c10">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="550" y="60" width="100" height="20" uuid="7638cdd7-f3a9-40c0-a967-221f2288229a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fehca de Nacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="650" y="60" width="300" height="20" uuid="df754c67-5523-4c58-b4ef-99d0e4451faa">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="950" y="60" width="200" height="20" uuid="65ebbebb-6b5b-4925-9327-d012da6e0328">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número Telf. Móvil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1150" y="60" width="199" height="20" uuid="a7e71614-62bb-4526-84dd-c6d7d872e751">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número Telf. Local]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="20" width="350" height="20" uuid="0916e7af-7c57-429b-bd5a-7bc8b79afdd6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TITULO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="350" height="20" uuid="84f67092-0b3f-4a9d-b150-6f1d5ff62ebd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1349" y="60" width="100" height="20" uuid="54987a7f-9af1-43fd-a78f-09c9aaf4b11c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Póliza Asegurado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1450" y="60" width="100" height="20" uuid="a7cb6f60-2867-411d-9fe5-5fd44262afb4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Póliza Contratante]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="350" height="20" uuid="1271dc03-7d7d-4dcb-b380-4c763eebeb52">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE_CRUDO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="0" width="100" height="20" uuid="497c8228-7341-420b-ab58-1c302b71797c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TP_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="0" width="100" height="20" uuid="74787e9e-2551-468f-8779-c8b86df9343f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="550" y="0" width="100" height="20" uuid="4c20829f-36fa-45a2-83d9-f05e85167332">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FE_NACIMIENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="650" y="0" width="300" height="20" uuid="2cdf7b5f-7ced-49aa-b3ba-e8e2bee6f464">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{TX_CORREO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="950" y="0" width="200" height="20" uuid="f46c970a-f883-4ff0-b52f-04bcd38deff6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1150" y="0" width="199" height="20" uuid="65b98d6d-72c3-4c7d-a4c5-ca976fc2bb48">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_TELEFONO_HAB}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1349" y="0" width="100" height="20" uuid="426e7bef-0ac4-4624-8abc-0faef1f1ed1e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_POLIZA_ASEGURADO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1450" y="0" width="100" height="20" uuid="c993c7f0-bff1-41a4-a2e1-c8697db38b5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_POLIZA_CONTRATANTE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

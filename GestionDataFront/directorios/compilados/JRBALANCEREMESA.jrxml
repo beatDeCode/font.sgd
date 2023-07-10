@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="JRBALANCEREMESA" pageWidth="600" pageHeight="842" columnWidth="600" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="a903fdcc-a55d-447c-bfc8-cc7e9ac0117e">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="oracle"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="CD_ALIADO" class="java.lang.String"/>
+	<parameter name="CD_REMESA" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[--fase 1
+select
+nu_Consecutivo_remesa cd_remesa,
+nm_remesa nm_remesa,
+to_char(fe_remesa,'dd/mm/yyyy') fe_remesa,
+ nu_registros_estimados nu_registros,
+ (select de_dato from tablainformacion where cd_tabla=410095 and va_Dato1=core.cd_aliado) aliado
+from coreremesa core
+where cd_remesa= $P{CD_REMESA} 
+and cd_aliado=  $P{CD_ALIADO}]]>
+	</queryString>
+	<field name="CD_REMESA" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="CD_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="CD_REMESA"/>
+	</field>
+	<field name="NM_REMESA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NM_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="NM_REMESA"/>
+	</field>
+	<field name="FE_REMESA" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FE_REMESA"/>
+		<property name="com.jaspersoft.studio.field.label" value="FE_REMESA"/>
+	</field>
+	<field name="ALIADO" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ALIADO"/>
+		<property name="com.jaspersoft.studio.field.label" value="ALIADO"/>
+	</field>
+	<field name="NU_REGISTROS" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="NU_REGISTROS"/>
+		<property name="com.jaspersoft.studio.field.label" value="NU_REGISTROS"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="210" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="0" y="0" width="600" height="90" uuid="09224080-e761-4998-8733-67b2c2caf02a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["fondo1.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="90" width="600" height="20" uuid="53b3ba12-d813-4bed-a6d0-3b24108a3b71">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="110" width="600" height="20" uuid="21a030af-771e-4964-95a4-93f39c07ac62">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Balance de la Remesa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="150" width="100" height="20" uuid="de5e5ab2-5045-44e4-9d50-566c11766ba9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CD_REMESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="130" width="600" height="20" uuid="4157aba6-7835-4828-a8f7-2e2c2b30f41e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="100" height="20" uuid="ea51a2e4-8e05-4a4f-9708-57f605c3e311">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo Remesa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="400" y="150" width="200" height="20" uuid="6ce55a86-ee95-4409-a6f8-244b96771c37">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NM_REMESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="150" width="200" height="20" uuid="94ecdb9d-4500-4a10-ad30-fb013b0f87a3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre de la Remesa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="170" width="100" height="20" uuid="e9471b29-0bec-4af2-bbd1-1fabc3ee4b3f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{FE_REMESA}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="170" width="100" height="20" uuid="2fc7e74a-b898-4594-a559-4940018a5170">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de la remesa]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="170" width="100" height="20" uuid="76e8ba56-36ca-4fe2-9d9d-dd251935a9fa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NU_REGISTROS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="200" y="170" width="100" height="20" uuid="96810c80-7680-4a62-bb6c-39eb9eb4ad10">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registros ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="190" width="600" height="20" uuid="9d15d892-b9bd-4b57-914b-c7ff1b33e8a5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="500" y="170" width="100" height="20" uuid="2744026d-debb-4650-8445-577514bf003f"/>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ALIADO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="170" width="100" height="20" uuid="19fea4f3-bd84-4bdb-9639-5daeed1412b9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box leftPadding="6">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aliado]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="600" height="50" uuid="34734d47-4a32-4860-b29d-065adca6e6e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<subreportParameter name="CD_REMESA">
+					<subreportParameterExpression><![CDATA[$P{CD_REMESA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="CD_ALIADO">
+					<subreportParameterExpression><![CDATA[$P{CD_ALIADO}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["JRBALANCEREMESA_1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="600" height="50" uuid="6e68a492-abad-48c1-8832-a267c3075aa7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="CD_REMESA">
+					<subreportParameterExpression><![CDATA[$P{CD_REMESA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["JRBALANCEREMESA_2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="600" height="50" uuid="55afe73b-6bff-46d0-851a-c1cf30434591">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="CD_REMESA">
+					<subreportParameterExpression><![CDATA[$P{CD_REMESA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["JRBALANCEREMESA_3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="50">
+			<subreport>
+				<reportElement x="0" y="0" width="600" height="50" uuid="281df65f-5440-4472-beb6-fd9f43cfb439">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="CD_REMESA">
+					<subreportParameterExpression><![CDATA[$P{CD_REMESA}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["JRBALANCEREMESA_4.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>
